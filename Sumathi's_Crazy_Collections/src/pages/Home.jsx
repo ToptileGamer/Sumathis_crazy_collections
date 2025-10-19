@@ -19,23 +19,42 @@ const Home = () => {
 
      {/* ================= Card Layout ================= */}
      <section className="info-section">
-       <h2>Our Best selling Products</h2>
+       <h2>South India’s Trusted Wholesale Spice Partner</h2>
        <p>Our marketing, sales, and delivery teams work across South India to ensure every retailer and distributor gets high-quality masalas on time.</p>
 
 
-       <div className="product-cards">
-         {best_selling.map((selling) => (
-           <div key={selling.name} className="product-card">
-            <img src={selling.img} alt="" />
-             <h3>{selling.name}</h3>
-             <p>{selling.desc}</p>
+       <div className="info-cards">
+         {teams.map((team) => (
+           <div key={team.name} className="info-card">
+            <img src={team.img} alt="" />
+             <h3>{team.name}</h3>
+             <p>{team.description}</p>
            </div>
          ))}
        </div>
      </section>
 
 
-     
+     {/* ================= Table Layout ================= */}
+     <section className="info-section">
+       <h2>Our Teams – Table View</h2>
+       <table className="info-table">
+         <thead>
+           <tr>
+             <th>Team</th>
+             <th>Description</th>
+           </tr>
+         </thead>
+         <tbody>
+           {teams.map((team) => (
+             <tr key={team.name}>
+               <td>{team.name}</td>
+               <td>{team.description}</td>
+             </tr>
+           ))}
+         </tbody>
+       </table>
+     </section>
    </div>
  );
 };
