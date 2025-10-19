@@ -29,13 +29,13 @@ const Home = () => {
 
      {/* ================= Card Layout ================= */}
      <section className="info-section">
-       <h2>South India’s Trusted Wholesale Spice Partner</h2>
-       <p>Our marketing, sales, and delivery teams work across South India to ensure every retailer and distributor gets high-quality masalas on time.</p>
+       <h2>Our Top Selling Products</h2>
+       <p>any small text or message</p>
 
 
-       <div className="info-cards">
+       <div className="product-cards">
          {teams.map((team) => (
-           <div key={team.name} className="info-card">
+           <div key={team.name} className="product-card">
             <img src={team.img} alt="" />
              <h3>{team.name}</h3>
              <p>{team.description}</p>
@@ -45,26 +45,7 @@ const Home = () => {
      </section>
 
 
-     {/* ================= Table Layout ================= */}
-     <section className="info-section">
-       <h2>Our Teams – Table View</h2>
-       <table className="info-table">
-         <thead>
-           <tr>
-             <th>Team</th>
-             <th>Description</th>
-           </tr>
-         </thead>
-         <tbody>
-           {teams.map((team) => (
-             <tr key={team.name}>
-               <td>{team.name}</td>
-               <td>{team.description}</td>
-             </tr>
-           ))}
-         </tbody>
-       </table>
-     </section>
+    
    </div>
  );
 };
