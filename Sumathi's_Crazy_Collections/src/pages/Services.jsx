@@ -1,13 +1,10 @@
-import deli from '../assets/deli.jpeg';
-import MarketingTeam from '../assets/MarketingTeam.jpg';
-import whole from '../assets/whole.jpeg';
-import doorstep from '../assets/doorstep.jpg'
+
 
 const services = [
- {img:whole,  title: "Wholesale Supply", desc: "We provide bulk orders for retailers, restaurants, and distributors." },
- {img:deli, title: "Pan-South Delivery", desc: "Efficient logistics team ensuring timely deliveries." },
- {img:MarketingTeam, title: "Marketing & Branding", desc: "Support for promoting local and regional spice brands." },
- {img:doorstep, title:"Door-Step Delivery", desc: "Have your spices Delivered to your door step"},
+ { title: "Wholesale Supply", desc: "We provide bulk orders for retailers, restaurants, and distributors." },
+ { title: "Pan-South Delivery", desc: "Efficient logistics team ensuring timely deliveries." },
+ { title: "Marketing & Branding", desc: "Support for promoting local and regional spice brands." },
+ { title:"Door-Step Delivery", desc: "Have your spices Delivered to your door step"},
 
 
 ];
