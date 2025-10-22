@@ -6,6 +6,8 @@ import Products from "./pages/Products";
 import Services from "./pages/Services";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import ProductDetails from "./pages/ProductDetails"; // Adjust path if needed
+
 
 
 function App() {
@@ -16,6 +18,7 @@ function App() {
        <Routes>
          <Route path="/" element={<Home />} />
          <Route path="/products" element={<Products />} />
+         <Route path="/product/:name" element={<ProductDetails />} />
          <Route path="/services" element={<Services />} />
          <Route path="/about" element={<About />} />
          <Route path="/contact" element={<Contact />} />
