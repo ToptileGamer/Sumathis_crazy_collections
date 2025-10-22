@@ -9,7 +9,7 @@ const Navbar = () => {
  return (
    <nav>
      <div className="container">
-       <Link to="/" className="logo">SouthSpice</Link>
+       <Link to="/" className="logo">Sumathi's Crazy Collections</Link>
        <ul className={`nav-links ${showMenu ? "show" : ""}`}>
          {["Home", "Products", "Contact","profile"].map(item => (
            <li key={item}>

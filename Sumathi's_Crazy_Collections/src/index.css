@@ -632,3 +632,42 @@ footer p.footer-subtext {
    width: 90%;
  }
 }
+
+.add-to-cart-btn {
+  background-color: #ffcce0; /* soft pink */
+  color: #fff;
+  border: none;
+  padding: 12px 24px;
+  font-size: 1rem;
+  font-family: 'Comic Sans MS', cursive, sans-serif;
+  border-radius: 30px;
+  box-shadow: 0 4px 8px rgba(255, 192, 203, 0.5);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.add-to-cart-btn::before {
+  content: "💖";
+  position: absolute;
+  left: 16px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  transition: transform 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+  background-color: #ff99cc;
+  box-shadow: 0 6px 12px rgba(255, 105, 180, 0.5);
+  transform: scale(1.05);
+}
+
+.add-to-cart-btn:active {
+  transform: scale(0.98);
+}
+
+.add-to-cart-btn:hover::before {
+  transform: translateY(-50%) scale(1.2) rotate(10deg);
+}

@@ -1,63 +1,38 @@
-
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
-import pwgb4 from '../assets/bracelets/pwgb4.png';
+import mc4 from '../assets/bracelets/mc4.png';
+import pwwb from '../assets/bracelets/pwwb.png';
+import wbb7 from '../assets/Earings/wbb7.png';
 
 const Home = () => {
- const best_selling = [
-  {img:pwgb4,name: "Purple with Gold crystal",desc: "its a Purple bracelet with a gold crystal in the center"},
-  {img:bp, name:"blue with pink"},
-   
- ];
+  const bsproducts = [
+    { name: "Black-white (pack of 7)", img: wbb7 },
+    { name: "Pink with White Bow", img: pwwb },
+    { name: "Multi-Color (pack of 4)", img: mc4 },
+  ];
 
+  return (
+    <div>
+      <Navbar />
+      <Hero />
 
- return (
-   <div>
-     <Navbar />
-     <Hero />
-
-
-     {/* ================= Card Layout ================= */}
-     <section className="info-section">
-       <h2>South India’s Trusted Wholesale Spice Partner</h2>
-       <p>Our marketing, sales, and delivery teams work across South India to ensure every retailer and distributor gets high-quality masalas on time.</p>
-
-
-       <div className="info-cards">
-         {teams.map((team) => (
-           <div key={team.name} className="info-card">
-            <img src={team.img} alt="" />
-             <h3>{team.name}</h3>
-             <p>{team.description}</p>
-           </div>
-         ))}
-       </div>
-     </section>
-
-
-     {/* ================= Table Layout ================= */}
-     <section className="info-section">
-       <h2>Our Teams – Table View</h2>
-       <table className="info-table">
-         <thead>
-           <tr>
-             <th>Team</th>
-             <th>Description</th>
-           </tr>
-         </thead>
-         <tbody>
-           {teams.map((team) => (
-             <tr key={team.name}>
-               <td>{team.name}</td>
-               <td>{team.description}</td>
-             </tr>
-           ))}
-         </tbody>
-       </table>
-     </section>
-   </div>
- );
+      {/* ================= Best Sellers Section (Reuses product-card style) ================= */}
+      <section className="products-section">
+        <h2>Best-Selling Products</h2>
+        <h4>Hand-picked & loved by customers.</h4>
+        <div className="products-grid">
+          {bsproducts.map((product) => (
+            <div key={product.name} className="product-card">
+              <img src={product.img} alt={product.name} />
+              <h3>{product.name}</h3>
+              <p>Add a small description here.</p>
+              <button className="add-to-cart-btn">Add to cart</button>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  );
 };
-
 
 export default Home;
