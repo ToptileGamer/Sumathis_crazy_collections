@@ -3,16 +3,20 @@ import emailjs from "@emailjs/browser";
 import "../styles/contact.css";
 
 const Contact = () => {
-  const [numColors, setNumColors] = useState(1);
-  const [sending, setSending] = useState(false);
-  const [colorValues, setColorValues] = useState([""]);
+  const [sendingMessage, setSendingMessage] = useState(false);
+  const [sendingOrder, setSendingOrder] = useState(false);
 
-  const colorOptions = [
-    "Red", "Pink", "White", "Black", "Blue", "Yellow", "Green", "Purple", "Orange"
-  ];
+  // Custom Order States
+  const [numColors, setNumColors] = useState(1);
+  const [colorValues, setColorValues] = useState([""]);
+  const [style, setStyle] = useState("");
 
   const styleOptions = [
-    "Casual", "Festive", "Elegant", "Traditional", "Modern", "Cute"
+    "Classic",
+    "Elegant",
+    "Cute",
+    "Trendy",
+    "Festive",
   ];
 
   const handleColorChange = (index, value) => {
@@ -21,49 +25,59 @@ const Contact = () => {
     setColorValues(newColors);
   };
 
-  const handleSubmit = (e) => {
+  // ========== Message Form ==========
+  const handleMessageSubmit = (e) => {
     e.preventDefault();
-    setSending(true);
+    setSendingMessage(true);
 
-    const form = e.target;
-    const templateParams = {
-      name: form.name.value,
-      email: form.email.value,
-      message: form.message?.value || "",
-      style: form.style?.value || "",
-      colors: colorValues.join(", "),
-      description: form.description?.value || "",
-      design: form.design?.files[0]?.name || "None",
-    };
+    emailjs
+      .sendForm(
+        "service_4lpetkt",
+        "template_4ub9i3o",
+        e.target,
+        "Lwd5HxsRkUsjjY_lt"
+      )
+      .then(
+        () => {
+          alert("Thank you! Your message has been sent 💖");
+          e.target.reset();
+          setSendingMessage(false);
+        },
+        (err) => {
+          console.error(err);
+          alert("Oops! Something went wrong. Please try again.");
+          setSendingMessage(false);
+        }
+      );
+  };
 
-    emailjs.send(
-      "service_1780hn6",
-      "template_eoj7d9v",
-      templateParams,
-      "dTrFGG1s35hxdYEBP"
-    )
-    .then(
-      () => {
-        // Auto-reply to customer
-        emailjs.send(
-          "service_1780hn6",
-          "YOUR_AUTOREPLY_TEMPLATE_ID",
-          { name: form.name.value, email: form.email.value },
-          "dTrFGG1s35hxdYEBP"
-        );
+  // ========== Custom Order Form ==========
+  const handleOrderSubmit = (e) => {
+    e.preventDefault();
+    setSendingOrder(true);
 
-        alert("Thank you! Your request has been sent 💖");
-        form.reset();
-        setNumColors(1);
-        setColorValues([""]);
-        setSending(false);
-      },
-      (err) => {
-        console.error(err);
-        alert("Oops! Something went wrong. Please try again.");
-        setSending(false);
-      }
-    );
+    emailjs
+      .sendForm(
+        "service_4lpetkt",
+        "template_es23kwy",
+        e.target,
+        "Lwd5HxsRkUsjjY_lt"
+      )
+      .then(
+        () => {
+          alert("Thank you! Your custom order has been sent 💖");
+          e.target.reset();
+          setNumColors(1);
+          setColorValues([""]);
+          setStyle("");
+          setSendingOrder(false);
+        },
+        (err) => {
+          console.error(err);
+          alert("Oops! Something went wrong. Please try again.");
+          setSendingOrder(false);
+        }
+      );
   };
 
   return (
@@ -78,12 +92,21 @@ const Contact = () => {
         {/* ================= Message Section ================= */}
         <div className="message-section">
           <h3>💌 Send Us a Message</h3>
-          <form onSubmit={handleSubmit} className="contact-form">
+          <form onSubmit={handleMessageSubmit} className="contact-form">
             <input type="text" name="name" placeholder="Your Name" required />
-            <input type="email" name="email" placeholder="Your Email" required />
-            <textarea name="message" placeholder="Your Message" rows="4"></textarea>
+            <input
+              type="email"
+              name="email"
+              placeholder="Your Email"
+              required
+            />
+            <textarea
+              name="message"
+              placeholder="Your Message"
+              rows="4"
+            ></textarea>
             <button type="submit" className="add-to-cart-btn">
-              {sending ? "Sending..." : "Send Message 💖"}
+              {sendingMessage ? "Sending..." : "Send Message 💖"}
             </button>
           </form>
         </div>
@@ -91,24 +114,36 @@ const Contact = () => {
         {/* ================= Custom Order Section ================= */}
         <div className="custom-order-section">
           <h3>🎀 Place a Custom Order</h3>
-          <form onSubmit={handleSubmit} className="contact-form">
+          <form onSubmit={handleOrderSubmit} className="contact-form">
             <input type="text" name="name" placeholder="Your Name" required />
-            <input type="email" name="email" placeholder="Your Email" required />
+            <input
+              type="email"
+              name="email"
+              placeholder="Your Email"
+              required
+            />
 
             {/* Preferred Style Dropdown */}
             <label>
               Preferred Style:
-              <select name="style" required>
+              <select
+                name="style"
+                value={style}
+                onChange={(e) => setStyle(e.target.value)}
+                required
+              >
                 <option value="">Select a style</option>
-                {styleOptions.map((s) => (
-                  <option key={s} value={s}>{s}</option>
+                {styleOptions.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
                 ))}
               </select>
             </label>
 
             {/* Number of Colors */}
             <label>
-              Number of Colors:
+              Number of Colors (1-5):
               <input
                 type="number"
                 name="numColors"
@@ -120,24 +155,41 @@ const Contact = () => {
                   setNumColors(val);
                   setColorValues(Array(val).fill(""));
                 }}
+                required
               />
             </label>
 
-            {/* Dynamic Color Dropdowns */}
+            {/* Dynamic Color Inputs */}
             {colorValues.map((color, index) => (
-              <select
+              <input
                 key={index}
+                type="text"
                 name={`color${index + 1}`}
+                placeholder={`Color ${index + 1}`}
                 value={color}
                 onChange={(e) => handleColorChange(index, e.target.value)}
                 required
-              >
-                <option value="">Select Color {index + 1}</option>
-                {colorOptions.map((c) => (
-                  <option key={c} value={c}>{c}</option>
-                ))}
-              </select>
+              />
             ))}
+
+            {/* Hidden input for all colors */}
+            <input
+              type="hidden"
+              name="colors"
+              value={colorValues.join(", ")}
+            />
+
+            {/* Live color preview */}
+            <div className="color-preview">
+              {colorValues.map((color, index) => (
+                <div
+                  key={index}
+                  className="color-box"
+                  style={{ backgroundColor: color || "#fff" }}
+                  title={color || "empty"}
+                ></div>
+              ))}
+            </div>
 
             <textarea
               name="description"
@@ -145,13 +197,8 @@ const Contact = () => {
               rows="3"
             ></textarea>
 
-            <label>
-              Upload Custom Design (optional):
-              <input type="file" name="design" accept="image/*" />
-            </label>
-
             <button type="submit" className="add-to-cart-btn">
-              {sending ? "Sending..." : "Send Custom Order 💖"}
+              {sendingOrder ? "Sending..." : "Send Custom Order 💖"}
             </button>
           </form>
         </div>
