@@ -96,7 +96,7 @@ const Home = () => {
           rel="noreferrer"
           className="insta-btn"
         >
-          Visit Instagram ✨
+          Visit Our Instagram ✨
         </a>
       </section>
     </div>

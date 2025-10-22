@@ -1,119 +1,170 @@
 import React, { useState } from "react";
+import emailjs from "@emailjs/browser";
 import "../styles/contact.css";
 
 const Contact = () => {
-  // 🌈 Custom Order Logic
   const [numColors, setNumColors] = useState(1);
-  const [colorInputs, setColorInputs] = useState([""]);
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [preview, setPreview] = useState(null);
+  const [sending, setSending] = useState(false);
+  const [colorValues, setColorValues] = useState([""]);
 
-  const handleNumColorsChange = (e) => {
-    const count = parseInt(e.target.value);
-    setNumColors(count);
-    setColorInputs(Array(count).fill(""));
-  };
+  const colorOptions = [
+    "Red", "Pink", "White", "Black", "Blue", "Yellow", "Green", "Purple", "Orange"
+  ];
+
+  const styleOptions = [
+    "Casual", "Festive", "Elegant", "Traditional", "Modern", "Cute"
+  ];
 
   const handleColorChange = (index, value) => {
-    const newColors = [...colorInputs];
+    const newColors = [...colorValues];
     newColors[index] = value;
-    setColorInputs(newColors);
+    setColorValues(newColors);
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setSelectedFile(file);
-    if (file) setPreview(URL.createObjectURL(file));
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setSending(true);
+
+    const form = e.target;
+    const templateParams = {
+      name: form.name.value,
+      email: form.email.value,
+      message: form.message?.value || "",
+      style: form.style?.value || "",
+      colors: colorValues.join(", "),
+      description: form.description?.value || "",
+      design: form.design?.files[0]?.name || "None",
+    };
+
+    emailjs.send(
+      "service_1780hn6",
+      "template_eoj7d9v",
+      templateParams,
+      "dTrFGG1s35hxdYEBP"
+    )
+    .then(
+      () => {
+        // Auto-reply to customer
+        emailjs.send(
+          "service_1780hn6",
+          "YOUR_AUTOREPLY_TEMPLATE_ID",
+          { name: form.name.value, email: form.email.value },
+          "dTrFGG1s35hxdYEBP"
+        );
+
+        alert("Thank you! Your request has been sent 💖");
+        form.reset();
+        setNumColors(1);
+        setColorValues([""]);
+        setSending(false);
+      },
+      (err) => {
+        console.error(err);
+        alert("Oops! Something went wrong. Please try again.");
+        setSending(false);
+      }
+    );
   };
 
   return (
     <section className="contact-section">
-      <h2>💌 Contact & Custom Orders</h2>
-      <p className="subtitle">
-        We’d love to hear from you — send us a message or create your custom order! 🌷
+      <h2>Contact & Custom Orders</h2>
+      <p className="subtext">
+        Send us a message or place your custom order. We’ll bring your ideas to
+        life! 🌸
       </p>
 
       <div className="contact-wrapper">
-        {/* ✉️ Message Form */}
-        <div className="contact-box">
-          <h3>Send Us a Message 💬</h3>
-          <form className="contact-form">
-            <input type="text" placeholder="Your Name" required />
-            <input type="email" placeholder="Your Email" required />
-            <textarea placeholder="Write your message here..." rows="5"></textarea>
-            <button type="submit">Send Message 💖</button>
+        {/* ================= Message Section ================= */}
+        <div className="message-section">
+          <h3>💌 Send Us a Message</h3>
+          <form onSubmit={handleSubmit} className="contact-form">
+            <input type="text" name="name" placeholder="Your Name" required />
+            <input type="email" name="email" placeholder="Your Email" required />
+            <textarea name="message" placeholder="Your Message" rows="4"></textarea>
+            <button type="submit" className="add-to-cart-btn">
+              {sending ? "Sending..." : "Send Message 💖"}
+            </button>
           </form>
         </div>
 
-        {/* 🎨 Custom Order Form */}
-        <div className="contact-box">
-          <h3>Place a Custom Order 🎀</h3>
-          <form className="contact-form">
-            <input type="text" placeholder="Your Name" required />
-            <input type="email" placeholder="Your Email" required />
-            <textarea
-              placeholder="Describe your design or bracelet idea..."
-              rows="4"
-            ></textarea>
+        {/* ================= Custom Order Section ================= */}
+        <div className="custom-order-section">
+          <h3>🎀 Place a Custom Order</h3>
+          <form onSubmit={handleSubmit} className="contact-form">
+            <input type="text" name="name" placeholder="Your Name" required />
+            <input type="email" name="email" placeholder="Your Email" required />
 
-            {/* Style */}
-            <label className="form-label">Preferred Style</label>
-            <select>
-              <option>Elegant & Minimal</option>
-              <option>Colorful & Fun</option>
-              <option>Boho & Beaded</option>
-              <option>Friendship Theme</option>
-              <option>Festival Special</option>
-            </select>
+            {/* Preferred Style Dropdown */}
+            <label>
+              Preferred Style:
+              <select name="style" required>
+                <option value="">Select a style</option>
+                {styleOptions.map((s) => (
+                  <option key={s} value={s}>{s}</option>
+                ))}
+              </select>
+            </label>
 
             {/* Number of Colors */}
-            <label className="form-label">Number of Colors</label>
-            <select value={numColors} onChange={handleNumColorsChange}>
-              {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((n) => (
-                <option key={n} value={n}>
-                  {n} Color{n > 1 ? "s" : ""}
-                </option>
-              ))}
-            </select>
-
-            {/* Dynamic Color Inputs */}
-            {colorInputs.map((_, index) => (
+            <label>
+              Number of Colors:
               <input
-                key={index}
-                type="text"
-                placeholder={`Enter Color ${index + 1}`}
-                value={colorInputs[index]}
-                onChange={(e) => handleColorChange(index, e.target.value)}
+                type="number"
+                name="numColors"
+                min="1"
+                max="5"
+                value={numColors}
+                onChange={(e) => {
+                  const val = Number(e.target.value);
+                  setNumColors(val);
+                  setColorValues(Array(val).fill(""));
+                }}
               />
+            </label>
+
+            {/* Dynamic Color Dropdowns */}
+            {colorValues.map((color, index) => (
+              <select
+                key={index}
+                name={`color${index + 1}`}
+                value={color}
+                onChange={(e) => handleColorChange(index, e.target.value)}
+                required
+              >
+                <option value="">Select Color {index + 1}</option>
+                {colorOptions.map((c) => (
+                  <option key={c} value={c}>{c}</option>
+                ))}
+              </select>
             ))}
 
-            {/* Upload Custom Design */}
-            <label className="form-label">Upload Your Design (Optional)</label>
-            <input type="file" accept="image/*" onChange={handleFileChange} />
+            <textarea
+              name="description"
+              placeholder="Extra Notes / Description"
+              rows="3"
+            ></textarea>
 
-            {/* Live Preview */}
-            {preview && (
-              <div className="preview-box">
-                <img src={preview} alt="Design Preview" />
-                <p>Preview of your design 🌸</p>
-              </div>
-            )}
+            <label>
+              Upload Custom Design (optional):
+              <input type="file" name="design" accept="image/*" />
+            </label>
 
-            <button type="submit">Submit Custom Order 💕</button>
+            <button type="submit" className="add-to-cart-btn">
+              {sending ? "Sending..." : "Send Custom Order 💖"}
+            </button>
           </form>
         </div>
       </div>
 
       <p className="contact-info">
-        Currently taking orders through Instagram 💗
-      </p>
-      <p className="contact-info">
+        You can also DM us on Instagram:{" "}
         <a
           href="https://instagram.com/sumathiscrazycollection"
           target="_blank"
-          rel="noreferrer"
+          rel="noopener noreferrer"
         >
-          Message us on Instagram 🌷
+          @sumathiscrazycollection
         </a>
       </p>
     </section>
