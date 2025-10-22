@@ -1,14 +1,13 @@
 import Hero from "../components/Hero";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
-import "../styles/productDetails.css"; // ✅ Reuse price design
+import "../styles/home.css"; // 🌸 new cute & complete design
 
 import mc4 from "../assets/bracelets/mc4.png";
 import pwwb from "../assets/bracelets/pwwb.png";
 import wbb7 from "../assets/Earings/wbb7.png";
 
 const Home = () => {
-  // ✅ Include prices & descriptions (matching your Products page)
   const bsproducts = [
     {
       name: "Black-white (pack of 7)",
@@ -31,43 +30,74 @@ const Home = () => {
   ];
 
   return (
-    <div>
+    <div className="home-page">
       <Navbar />
       <Hero />
 
-      {/* ================= Best Sellers Section ================= */}
-      <section className="products-section px-6 py-12">
-        <h2 className="text-3xl font-bold mb-2">Best-Selling Products</h2>
-        <h4 className="text-gray-600 mb-8">
-          Hand-picked & loved by our customers.
-        </h4>
+      {/* 🌸 Best Sellers Section */}
+      <section className="products-section">
+        <h2>🌟 Best-Selling Products</h2>
+        <p className="subtitle">Hand-picked & loved by our happy customers 💕</p>
 
-        <div className="products-grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="products-grid">
           {bsproducts.map((product) => (
-            <div
-              key={product.name}
-              className="product-card border p-4 rounded shadow hover:shadow-lg transition"
-            >
-              <Link
-                to={`/product/${product.name}`}
-                state={{ product }}
-              >
-                <img
-                  src={product.img}
-                  alt={product.name}
-                  className="w-full h-48 object-cover mb-4"
-                />
-                <h3 className="text-lg font-medium">{product.name}</h3>
-                <p className="price">{product.price}</p> {/* ✅ same design as ProductDetails */}
-                <p className="text-sm text-gray-600">{product.description}</p>
+            <div key={product.name} className="product-card">
+              <Link to={`/product/${product.name}`} state={{ product }}>
+                <div className="img-wrapper">
+                  <img src={product.img} alt={product.name} />
+                </div>
+                <h3>{product.name}</h3>
+                <p className="price">{product.price}</p>
+                <p className="desc">{product.description}</p>
               </Link>
-
-              <button className="add-to-cart-btn">
-                Add to Cart
-              </button>
+              <button className="add-to-cart-btn">Add to Cart</button>
             </div>
           ))}
         </div>
+      </section>
+
+      {/* 💖 Custom Order Section */}
+      <section className="custom-order">
+        <h2>💌 Customize Your Bracelet</h2>
+        <p>
+          Choose your favorite color, charm, and style! We'll make it uniquely yours 🎀
+        </p>
+        <Link to="/contact" className="custom-btn">
+          Create My Bracelet
+        </Link>
+      </section>
+
+      {/* 🌷 Customer Reviews */}
+      <section className="reviews">
+        <h2>✨ What Our Customers Say</h2>
+        <div className="review-grid">
+          <div className="review-card">
+            <p>"Absolutely love the pink bow bracelet! It's so cute and comfy 💗"</p>
+            <h4>- Sneha</h4>
+          </div>
+          <div className="review-card">
+            <p>"Fast delivery and beautiful packaging! Totally worth it 🌸"</p>
+            <h4>- Aishwarya</h4>
+          </div>
+          <div className="review-card">
+            <p>"Got matching bracelets with my bestie — we adore them 🫶"</p>
+            <h4>- Meera & Diya</h4>
+          </div>
+        </div>
+      </section>
+
+      {/* 🎀 Call to Action */}
+      <section className="cta">
+        <h2>Follow us on Instagram 💕</h2>
+        <p>@sumathiscrazycollection</p>
+        <a
+          href="https://instagram.com/sumathiscrazycollection"
+          target="_blank"
+          rel="noreferrer"
+          className="insta-btn"
+        >
+          Visit Instagram ✨
+        </a>
       </section>
     </div>
   );

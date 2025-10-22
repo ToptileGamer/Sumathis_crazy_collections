@@ -11,7 +11,7 @@ const Navbar = () => {
      <div className="container">
        <Link to="/" className="logo">Sumathi's Crazy Collections</Link>
        <ul className={`nav-links ${showMenu ? "show" : ""}`}>
-         {["Home", "Products", "Contact","profile"].map(item => (
+         {["Home", "Products", "Contact","Profile"].map(item => (
            <li key={item}>
              <Link to={`/${item === "Home" ? "" : item.toLowerCase()}`} onClick={() => setShowMenu(false)}>
                {item}
