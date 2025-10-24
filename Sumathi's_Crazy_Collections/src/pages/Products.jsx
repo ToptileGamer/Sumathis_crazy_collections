@@ -28,7 +28,7 @@ import red_butterfly from '../assets/Earings/red_butterfly.png';
 // Bracelets array
 const bracelets = [
   { name: "Multi-Color (pack of 4)", img: mc4, price: "₹450", description: "Colorful pack of 4 bracelets for casual and festive wear." },
-  { name: "Black-white (pack of 7)", img: wbb7, price: "₹399", description: "Classic black and white bracelet set of 7." },
+  { name: "Black-white (pack of 6)", img: wbb7, price: "₹399", description: "Classic black and white bracelet set of 6." },
   { name: "Pink with White Bow", img: pwwb, price: "₹350", description: "Elegant pink bracelet with a cute white bow." },
   { name: "Pink with White Star", img: pwws, price: "₹349", description: "Trendy pink bracelet featuring a white star charm." },
   { name: "Pink with Golden Bead", img: fpgb, price: "₹360", description: "Stylish bracelet with a golden bead on pink thread." },
